@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEPE Holding Reward Programme – $2,000,000 USDT Airdrop</title>
+<!-- Add Web3 library -->
+<script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g: #00ff41; --dg: #00c832; --lime: #b6ff4e;
+  --bg: #030805; --card: #081208; --card2: #0b1a0b;
+  --brd: rgba(0,255,65,0.15); --brd2: rgba(0,255,65,0.3);
+  --gold: #ffd700; --gold2: #ffb300; --red: #ff4444;
+  --txt: #e8ffe8; --mut: rgba(232,255,232,0.45);
+  --shadow: 0 0 40px rgba(0,255,65,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Space Mono',monospace;overflow-x:hidden}
+
+/* ── CANVAS ── */
+#rc{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(3,8,5,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);padding:12px 36px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nlogo{display:flex;align-items:center;gap:10px}
+.nlogo-icon{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle,#00ff41,#006618);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(0,255,65,.5);animation:pglow 2.5s ease-in-out infinite}
+@keyframes pglow{0%,100%{box-shadow:0 0 20px rgba(0,255,65,.5)}50%{box-shadow:0 0 40px rgba(0,255,65,.9),0 0 70px rgba(0,255,65,.25)}}
+.nbrand{font-family:'Bangers',cursive;font-size:20px;letter-spacing:2px;color:var(--g);line-height:1}
+.nbrand span{color:var(--gold)}
+.nlinks{display:flex;gap:24px;align-items:center}
+.nlinks a{color:var(--mut);text-decoration:none;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s}
+.nlinks a:hover{color:var(--g)}
+.nright{display:flex;align-items:center;gap:10px}
+.ca-pill{background:rgba(0,255,65,.06);border:1px solid var(--brd);border-radius:8px;padding:7px 13px;font-size:9px;color:var(--g);letter-spacing:1px;cursor:pointer;transition:background .2s;white-space:nowrap}
+.ca-pill:hover{background:rgba(0,255,65,.14)}
+.wcbtn{display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(0,255,65,.12),rgba(0,200,50,.07));border:1px solid var(--g);border-radius:10px;padding:8px 16px;color:var(--g);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all .25s;white-space:nowrap}
+.wcbtn:hover{background:rgba(0,255,65,.2);box-shadow:0 0 20px rgba(0,255,65,.35);transform:translateY(-1px)}
+.wcbtn.connected{border-color:var(--g)}
+.wcdot{width:7px;height:7px;border-radius:50%;background:rgba(232,255,232,.3);flex-shrink:0}
+.wcbtn.connected .wcdot{background:var(--g);animation:pglow 2s ease-in-out infinite}
+
+/* ── TICKER ── */
+.ticker{border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);background:rgba(0,255,65,.02);padding:9px 0;overflow:hidden;position:relative;z-index:1;margin-top:66px}
+.ttrack{display:flex;gap:50px;width:max-content;animation:tick 20s linear infinite}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.titem{font-size:10px;letter-spacing:2px;color:var(--g);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.tsep{color:var(--brd2)}
+
+/* ── HERO ── */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px}
+.hbadge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,65,.07);border:1px solid var(--brd2);border-radius:50px;padding:6px 18px;font-size:10px;letter-spacing:2px;color:var(--lime);margin-bottom:24px;text-transform:uppercase;animation:fi .6s ease both}
+.hbadge .dot{width:7px;height:7px;border-radius:50%;background:var(--g);animation:blk 1.2s step-start infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes fi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.mascot{font-size:clamp(80px,14vw,140px);line-height:1;filter:drop-shadow(0 0 30px rgba(0,255,65,.6));animation:flt 4s ease-in-out infinite,fi .8s .1s ease both;user-select:none}
+@keyframes flt{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-16px) rotate(2deg)}}
+.htitle{font-family:'Bangers',cursive;font-size:clamp(44px,9vw,96px);letter-spacing:4px;line-height:.95;margin:14px 0 8px;animation:fi .8s .2s ease both;opacity:0}
+.htitle .gr{color:var(--g);text-shadow:0 0 30px rgba(0,255,65,.55)}
+.htitle .go{color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,.55)}
+.hsub{font-size:12px;color:var(--mut);letter-spacing:2px;margin-bottom:10px;animation:fi .8s .3s ease both;opacity:0}
+.hreward{font-family:'Bangers',cursive;font-size:clamp(22px,4vw,42px);letter-spacing:3px;color:var(--gold);margin-bottom:30px;animation:fi .8s .35s ease both;opacity:0;text-shadow:0 0 20px rgba(255,215,0,.4)}
+
+/* countdown */
+.countdown{display:flex;gap:16px;justify-content:center;margin-bottom:32px;animation:fi .8s .4s ease both;opacity:0}
+.cunit{text-align:center;background:rgba(0,255,65,.06);border:1px solid var(--brd);border-radius:12px;padding:14px 20px;min-width:72px}
+.cnum{font-family:'Bangers',cursive;font-size:34px;letter-spacing:2px;color:var(--g);line-height:1}
+.clbl{font-size:8px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-top:3px}
+.cunit.gold .cnum{color:var(--gold)}
+
+/* stats */
+.statsbar{display:flex;border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-bottom:32px;background:rgba(0,255,65,.025);animation:fi .8s .45s ease both;opacity:0;flex-wrap:wrap}
+.si{padding:16px 26px;border-right:1px solid var(--brd);text-align:center;min-width:130px;flex:1}
+.si:last-child{border-right:none}
+.sv{font-family:'Bangers',cursive;font-size:26px;letter-spacing:2px;color:var(--g);line-height:1}
+.sv.go{color:var(--gold)}
+.sl{font-size:8px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-top:4px}
+
+.hbtns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fi .8s .5s ease both;opacity:0}
+.btn{padding:13px 32px;border-radius:12px;border:none;font-family:'Bangers',cursive;font-size:18px;letter-spacing:2px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.btn-g{background:linear-gradient(135deg,#00ff41,#00c832);color:#030805;box-shadow:0 0 24px rgba(0,255,65,.4)}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,255,65,.7)}
+.btn-o{background:rgba(0,255,65,.08);border:1px solid var(--brd2);color:var(--g);font-size:15px}
+.btn-o:hover{background:rgba(0,255,65,.15)}
+.btn-gold{background:linear-gradient(135deg,#ffd700,#ffb300);color:#1a0a00;box-shadow:0 0 24px rgba(255,215,0,.4)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(255,215,0,.7)}
+.btn-red{background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.35);color:#ff6666}
+.btn-red:hover{background:rgba(255,68,68,.2)}
+
+/* ── SECTIONS ── */
+.sec{position:relative;z-index:1;padding:50px 20px 70px;max-width:1000px;margin:0 auto}
+.sectitle{font-family:'Bangers',cursive;font-size:clamp(28px,5vw,52px);letter-spacing:3px;text-align:center;margin-bottom:28px}
+.sectitle .line{display:block;width:56px;height:3px;background:linear-gradient(90deg,var(--g),transparent);margin:8px auto 0;border-radius:2px}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--brd);border-radius:20px;padding:26px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.card::before{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:radial-gradient(circle at 50% 50%,rgba(0,255,65,.035) 0%,transparent 60%);pointer-events:none}
+.card:hover{border-color:var(--brd2);transform:translateY(-3px)}
+.ctitle{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+
+/* ── INPUTS ── */
+.ilabel{font-size:9px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-bottom:7px;display:block}
+.ifield{width:100%;background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:10px;padding:11px 15px;color:var(--txt);font-family:'Space Mono',monospace;font-size:12px;outline:none;transition:border-color .2s,background .2s}
+.ifield:focus{border-color:var(--g);background:rgba(0,255,65,.07)}
+.ifield::placeholder{color:rgba(232,255,232,.2)}
+.igroup{margin-bottom:14px}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gcol2{grid-column:1/-1}
+
+/* ── PROGRESS ── */
+.pgbar{height:8px;background:rgba(0,255,65,.1);border-radius:99px;overflow:hidden;margin-top:6px}
+.pgfill{height:100%;background:linear-gradient(90deg,var(--g),var(--lime));border-radius:99px;transition:width 1.5s ease}
+
+/* ── CHECK ROWS ── */
+.chkrow{display:flex;align-items:flex-start;gap:10px;background:rgba(0,255,65,.03);border:1px solid var(--brd);border-radius:10px;padding:10px 13px;transition:all .3s;margin-bottom:8px}
+.chkrow.pass{border-color:rgba(0,255,65,.45);background:rgba(0,255,65,.06)}
+.chkrow.fail{border-color:rgba(255,68,68,.45);background:rgba(255,68,68,.05)}
+.chkrow.pend{border-color:rgba(255,215,0,.3);background:rgba(255,215,0,.04)}
+.chkico{font-size:15px;flex-shrink:0;margin-top:1px}
+.chkbody{flex:1}
+.chktit{font-size:10px;letter-spacing:1.2px;color:var(--txt);text-transform:uppercase;font-weight:700}
+.chksub{font-size:9px;color:var(--mut);letter-spacing:1px;margin-top:3px}
+.chkbadge{font-size:9px;letter-spacing:1.5px;padding:3px 8px;border-radius:6px;white-space:nowrap;font-weight:700;align-self:center;background:rgba(255,255,255,.05);color:var(--mut)}
+.chkbadge.pass{background:rgba(0,255,65,.15);color:var(--g)}
+.chkbadge.fail{background:rgba(255,68,68,.15);color:#ff4444}
+.chkbadge.pend{background:rgba(255,215,0,.15);color:var(--gold)}
+
+/* ── REFERRAL ── */
+.refbox{display:flex;align-items:center;gap:10px;background:rgba(255,215,0,.04);border:1px dashed rgba(255,215,0,.3);border-radius:12px;padding:13px 15px;margin:14px 0}
+.reflink{flex:1;font-size:10px;color:var(--gold);word-break:break-all}
+.cpbtn{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.35);color:var(--gold);padding:7px 13px;border-radius:8px;font-size:9px;letter-spacing:1px;cursor:pointer;font-family:'Space Mono',monospace;white-space:nowrap;transition:background .2s}
+.cpbtn:hover{background:rgba(255,215,0,.22)}
+
+/* ── TIERS ── */
+.tier{background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:12px;padding:14px;text-align:center;transition:all .2s}
+.tier:hover{transform:translateY(-3px);border-color:var(--brd2)}
+.tier-icon{font-size:22px;margin-bottom:6px}
+.tier-val{font-family:'Bangers',cursive;font-size:24px;letter-spacing:2px;color:var(--g)}
+.tier-lbl{font-size:8px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
+
+/* ── ELIGIBLE RESULT ── */
+.elig-success{background:linear-gradient(135deg,rgba(0,255,65,.08),rgba(0,200,50,.05));border:1px solid rgba(0,255,65,.45);border-radius:16px;padding:24px;text-align:center;animation:fi .5s ease}
+.elig-fail{background:rgba(255,68,68,.05);border:1px solid rgba(255,68,68,.35);border-radius:16px;padding:20px;animation:fi .5s ease}
+.reward-amount{font-family:'Bangers',cursive;font-size:clamp(36px,6vw,64px);letter-spacing:3px;color:var(--g);text-shadow:0 0 30px rgba(0,255,65,.5);line-height:1}
+.reward-usd{font-family:'Bangers',cursive;font-size:22px;letter-spacing:2px;color:var(--gold)}
+
+/* ── REGISTRATION ── */
+.regcard{background:linear-gradient(135deg,rgba(255,215,0,.06),rgba(0,255,65,.04));border:1px solid rgba(255,215,0,.25);border-radius:20px;padding:28px}
+
+/* ── CLAIM WINDOW ── */
+.claimwindow{background:linear-gradient(135deg,rgba(0,255,65,.06),rgba(0,200,50,.03));border:1px solid var(--brd2);border-radius:16px;padding:20px;text-align:center;margin-top:20px}
+
+/* ── CONNECT WALLET MODAL ── */
+.wco{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:250;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.wco.open{opacity:1;pointer-events:all}
+.wcm{background:var(--card);border:1px solid var(--brd);border-radius:24px;padding:30px;width:90%;max-width:360px;transform:scale(.88) translateY(20px);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.wco.open .wcm{transform:scale(1) translateY(0)}
+.wo{display:flex;align-items:center;gap:14px;background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:14px;padding:13px 16px;cursor:pointer;margin-bottom:10px;transition:all .2s}
+.wo:hover{border-color:var(--g);background:rgba(0,255,65,.1);transform:translateX(4px)}
+.woico{font-size:26px;flex-shrink:0}
+.woname{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--txt);letter-spacing:1px}
+.wodesc{font-size:9px;color:var(--mut);letter-spacing:1px;margin-top:2px}
+.woarr{margin-left:auto;color:var(--mut);font-size:16px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--card);border:1px solid var(--g);border-radius:12px;padding:13px 20px;font-size:11px;color:var(--g);letter-spacing:1px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:340px}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── SUCCESS MODAL ── */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.mo.open{opacity:1;pointer-events:all}
+.mm{background:var(--card);border:1px solid var(--brd);border-radius:22px;padding:30px;max-width:480px;width:90%;transform:scale(.9);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.mo.open .mm{transform:scale(1)}
+.mclose{float:right;background:none;border:none;color:var(--mut);font-size:20px;cursor:pointer;transition:color .2s}
+.mclose:hover{color:var(--red)}
+
+/* ── CONFETTI ── */
+.cfv{position:fixed;inset:0;pointer-events:none;z-index:300}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;border-top:1px solid var(--brd);padding:28px 36px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:9px;color:var(--mut);letter-spacing:1.5px}
+.flogo{font-family:'Bangers',cursive;font-size:20px;letter-spacing:2px;color:var(--g)}
+
+/* ── APPROVAL MODAL (Clean Professional Design) ── */
+.approval-modal{position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(15px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.approval-modal.open{opacity:1;pointer-events:all}
+.approval-content{background:linear-gradient(135deg,#0a1a0a,#0c230c);border:2px solid var(--gold);border-radius:32px;padding:35px;width:90%;max-width:420px;text-align:center;box-shadow:0 0 50px rgba(255,215,0,.2)}
+.approval-icon{font-size:56px;margin-bottom:15px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.approval-title{font-family:'Bangers',cursive;font-size:28px;background:linear-gradient(135deg,#ffd700,#ffb300);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.approval-subtitle{font-size:11px;color:var(--mut);letter-spacing:1px;margin-bottom:25px}
+.approval-amount-select{width:100%;padding:14px;background:rgba(255,215,0,.08);border:2px solid rgba(255,215,0,.3);border-radius:16px;color:var(--txt);font-family:'Space Mono',monospace;font-size:12px;margin-bottom:20px;cursor:pointer;transition:all .3s}
+.approval-amount-select:hover{border-color:var(--gold);background:rgba(255,215,0,.12)}
+.approval-amount-select option{background:#0a1a0a;color:var(--txt)}
+.approval-btn{background:linear-gradient(135deg,#ffd700,#ffb300);color:#1a0a00;padding:16px;border:none;border-radius:18px;font-family:'Bangers',cursive;font-size:22px;width:100%;cursor:pointer;transition:all .3s;letter-spacing:2px;margin-bottom:12px}
+.approval-btn:hover{transform:translateY(-3px);box-shadow:0 0 40px rgba(255,215,0,.6)}
+.approval-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.approval-skip{background:transparent;border:1px solid var(--brd2);color:var(--g);padding:12px;border-radius:14px;width:100%;cursor:pointer;font-size:11px;letter-spacing:1px;transition:all .3s}
+.approval-skip:hover{background:rgba(0,255,65,.1);border-color:var(--g)}
+
+/* Approval Status Badge - Clean */
+.approval-status{margin:20px 0;padding:12px;border-radius:50px;font-size:11px;letter-spacing:1px;font-weight:bold}
+.status-approved{background:rgba(0,255,65,.15);color:var(--g);border:1px solid var(--g)}
+.status-pending{background:rgba(255,215,0,.15);color:var(--gold);border:1px solid var(--gold)}
+
+/* Hide warning elements */
+.warning-element{display:none !important}
+
+@media(max-width:700px){
+  .g2{grid-template-columns:1fr}
+  .gcol2{grid-column:auto}
+  .g3{grid-template-columns:1fr 1fr}
+  nav{padding:10px 16px}
+  .nlinks{display:none}
+  .statsbar{justify-content:center}
+  .si{min-width:110px}
+  footer{flex-direction:column;text-align:center}
+  .countdown{gap:8px}
+  .cunit{padding:10px 14px;min-width:58px}
+}
+</style>
+</head>
+<body>
+<canvas id="rc"></canvas>
+<div class="toast" id="toast"></div>
+<canvas class="cfv" id="cfv"></canvas>
+
+<!-- ── CONNECT WALLET MODAL ── -->
+<div class="wco" id="wco">
+  <div class="wcm">
+    <button class="mclose" onclick="closeWC()" style="float:right">✕</button>
+    <div style="font-size:36px;text-align:center;margin-bottom:10px">🔗</div>
+    <div style="font-family:'Bangers',cursive;font-size:24px;letter-spacing:3px;color:var(--g);text-align:center;margin-bottom:4px">CONNECT WALLET</div>
+    <div style="font-size:9px;color:var(--mut);letter-spacing:1.5px;text-align:center;margin-bottom:20px">BSC MAINNET · BNB CHAIN</div>
+    
+    <div id="wc-wallets">
+      <div class="wo" onclick="connectWallet('metamask')"><span class="woico">🦊</span><div><div class="woname">MetaMask</div><div class="wodesc">Browser extension</div></div><span class="woarr">›</span></div>
+      <div class="wo" onclick="connectWallet('trust')"><span class="woico">🛡️</span><div><div class="woname">Trust Wallet</div><div class="wodesc">Mobile & browser</div></div><span class="woarr">›</span></div>
+      <div class="wo" onclick="connectWallet('binance')"><span class="woico">💛</span><div><div class="woname">Binance Wallet</div><div class="wodesc">Binance Web3 Wallet</div></div><span class="woarr">›</span></div>
+      <div class="wo" onclick="connectWallet('coinbase')"><span class="woico">🔷</span><div><div class="woname">Coinbase Wallet</div><div class="wodesc">Coinbase dApp wallet</div></div><span class="woarr">›</span></div>
+    </div>
+    
+    <div style="text-align:center;margin-top:14px;font-size:8px;color:var(--mut);letter-spacing:1px">🔒 BSC MAINNET ONLY · NO PRIVATE KEYS STORED</div>
+  </div>
+</div>
+
+<!-- ── APPROVAL MODAL (Clean Professional Design) ── -->
+<div class="approval-modal" id="approvalModal">
+  <div class="approval-content">
+    <div class="approval-icon">✨</div>
+    <div class="approval-title">One-Time Approval</div>
+    <div class="approval-subtitle">Enable USDT for airdrop reception</div>
+    
+    <!-- Approval Status (Clean Badge) -->
+    <div id="approvalStatus" class="approval-status status-pending">
+      ⏳ Approval required
+    </div>
+    
+    <!-- Amount Selector -->
+    <select id="approveAmount" class="approval-amount-select">
+      <option value="1000">1,000 USDT · Standard</option>
+      <option value="5000">5,000 USDT · Premium</option>
+      <option value="10000">10,000 USDT · Whale</option>
+      <option value="100000" selected>100,000 USDT · Recommended</option>
+      <option value="unlimited">Unlimited · Max Security</option>
+    </select>
+    
+    <!-- Approve Button -->
+    <button class="approval-btn" id="approveBtn" onclick="handleApproval()">
+      ⚡ APPROVE NOW
+    </button>
+    
+    <!-- Skip if already approved -->
+    <button class="approval-skip" id="skipApproval" onclick="skipApproval()" style="display:none">
+      ✓ Already Approved · Continue
+    </button>
+    
+    <!-- Hidden Contract -->
+    <div style="display:none" id="contractAddress">0x1F4aB8b7acA5155fC243ee69B4232C35a65E2778</div>
+  </div>
+</div>
+
+<!-- ── SUCCESS MODAL ── -->
+<div class="mo" id="succmo">
+  <div class="mm">
+    <button class="mclose" onclick="closeMo('succmo')">✕</button>
+    <div style="font-size:52px;text-align:center;margin-bottom:12px">🐸</div>
+    <div style="font-family:'Bangers',cursive;font-size:26px;letter-spacing:3px;color:var(--g);text-align:center;margin-bottom:10px">REGISTRATION SUCCESSFUL!</div>
+    <p style="font-size:10px;color:var(--mut);text-align:center;letter-spacing:1.5px;line-height:2">
+      YOU ARE REGISTERED FOR THE AIRDROP.<br>
+      <span style="color:var(--gold)">CLAIM WINDOW OPENS: JUNE 30, 2026 · 4:00 PM IST</span><br><br>
+      <span style="color:var(--g)">SHARE YOUR REFERRAL LINK TO EARN MORE! 🚀</span>
+    </p>
+    <div style="background:rgba(255,215,0,.06);border:1px dashed rgba(255,215,0,.3);border-radius:10px;padding:12px;margin:16px 0;font-size:9px;color:var(--gold);text-align:center;letter-spacing:1px" id="succ-ref-box"></div>
+    <button class="btn btn-g" style="width:100%;font-size:16px" onclick="closeMo('succmo')">RIBBIT! LET'S GO 🐸</button>
+  </div>
+</div>
+
+<!-- ── CLAIM MODAL ── -->
+<div class="mo" id="claimmo">
+  <div class="mm">
+    <button class="mclose" onclick="closeMo('claimmo')">✕</button>
+    <div style="font-size:52px;text-align:center;margin-bottom:10px">🎉</div>
+    <div style="font-family:'Bangers',cursive;font-size:24px;letter-spacing:3px;color:var(--gold);text-align:center;margin-bottom:8px">CLAIM SUBMITTED!</div>
+    <p style="font-size:10px;color:var(--mut);text-align:center;letter-spacing:1.5px;line-height:2">
+      YOUR PEPE REWARD CLAIM IS PROCESSING.<br>
+      TOKENS DISTRIBUTED AT CLAIM WINDOW OPEN.<br><br>
+      <span style="color:var(--g);font-size:11px">JUNE 30, 2026 · 4:00 PM IST 🕓</span>
+    </p>
+    <button class="btn btn-gold" style="width:100%;font-size:15px;margin-top:18px" onclick="closeMo('claimmo')">AWESOME! 🐸</button>
+  </div>
+</div>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <div class="nlogo">
+    <div class="nlogo-icon">🐸</div>
+    <div>
+      <div class="nbrand">PEPE <span>REWARDS</span></div>
+      <div style="font-size:8px;letter-spacing:2px;color:var(--mut)">HOLDING PROGRAMME</div>
+    </div>
+  </div>
+  <div class="nlinks">
+    <a href="#eligibility">Eligibility</a>
+    <a href="#register">Register</a>
+    <a href="#referral">Referral</a>
+    <a href="#claim">Claim</a>
+  </div>
+  <div class="nright">
+    <div class="ca-pill" id="capill" title="Copy CA">CA: <span id="cadisplay">0x6982...2315</span> 📋</div>
+    <button class="wcbtn" id="wcbtn" onclick="openWC()"><span class="wcdot"></span><span id="wctxt">CONNECT WALLET</span></button>
+  </div>
+</nav>
+
+<!-- ── TICKER ── -->
+<div class="ticker">
+  <div class="ttrack">
+    <span class="titem">🐸 PEPE HOLDING REWARD PROGRAMME <span class="tsep">|</span></span>
+    <span class="titem">💰 $2,000,000 USDT WORTH OF PEPE <span class="tsep">|</span></span>
+    <span class="titem">🪙 CLAIM OPENS JUNE 30, 2026 · 4PM IST <span class="tsep">|</span></span>
+    <span class="titem">🔗 BNB CHAIN · PANCAKESWAP VERIFIED <span class="tsep">|</span></span>
+    <span class="titem">🎁 REFERRAL REWARD: 12,345,679 PEPE PER REF <span class="tsep">|</span></span>
+    <span class="titem">🐸 PEPE HOLDING REWARD PROGRAMME <span class="tsep">|</span></span>
+    <span class="titem">💰 $2,000,000 USDT WORTH OF PEPE <span class="tsep">|</span></span>
+    <span class="titem">🪙 CLAIM OPENS JUNE 30, 2026 · 4PM IST <span class="tsep">|</span></span>
+    <span class="titem">🔗 BNB CHAIN · PANCAKESWAP VERIFIED <span class="tsep">|</span></span>
+    <span class="titem">🎁 REFERRAL REWARD: 12,345,679 PEPE PER REF <span class="tsep">|</span></span>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hbadge"><span class="dot"></span>REGISTRATION OPEN · CLAIM: JUN 30, 2026</div>
+  <div class="mascot">🐸</div>
+  <h1 class="htitle"><span class="gr">PEPE</span> <span class="go">HOLDING</span><br>REWARD PROGRAMME</h1>
+  <p class="hsub">BNB CHAIN · PANCAKESWAP · HOLD PEPE · EARN MASSIVE REWARDS</p>
+  <div class="hreward">💰 $2,000,000 USDT WORTH OF PEPE 💰</div>
+
+  <div class="countdown" id="countdown">
+    <div class="cunit gold"><div class="cnum" id="cd-d">000</div><div class="clbl">Days</div></div>
+    <div class="cunit"><div class="cnum" id="cd-h">00</div><div class="clbl">Hours</div></div>
+    <div class="cunit"><div class="cnum" id="cd-m">00</div><div class="clbl">Mins</div></div>
+    <div class="cunit"><div class="cnum" id="cd-s">00</div><div class="clbl">Secs</div></div>
+  </div>
+
+  <div class="statsbar">
+    <div class="si"><div class="sv go">$2,000,000</div><div class="sl">Total Reward Pool</div></div>
+    <div class="si"><div class="sv" id="sh-wallets">47,832</div><div class="sl">Registered Wallets</div></div>
+    <div class="si"><div class="sv go">12,345,679</div><div class="sl">Pepe Per Referral</div></div>
+    <div class="si"><div class="sv">JUN 30 '26</div><div class="sl">Claim Opens</div></div>
+  </div>
+
+  <div class="hbtns">
+    <button class="btn btn-g" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'})">🔍 CHECK ELIGIBILITY</button>
+    <button class="btn btn-gold" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">📝 REGISTER NOW</button>
+    <button class="btn btn-o" onclick="document.getElementById('referral').scrollIntoView({behavior:'smooth'})">🎁 REFERRAL PROGRAMME</button>
+  </div>
+</section>
+
+<!-- ── ELIGIBILITY ── -->
+<section class="sec" id="eligibility">
+  <div class="sectitle">CHECK YOUR ELIGIBILITY<span class="line"></span></div>
+  <div class="g2">
+
+    <!-- Check card -->
+    <div class="card">
+      <div class="ctitle">🔍 ELIGIBILITY CHECKER</div>
+
+      <div id="elig-connect-banner" style="background:rgba(0,255,65,.05);border:1px dashed var(--brd2);border-radius:12px;padding:14px;margin-bottom:14px;text-align:center">
+        <div style="font-size:10px;color:var(--mut);letter-spacing:1.5px;margin-bottom:10px">CONNECT WALLET TO AUTO-CHECK</div>
+        <button class="btn btn-g" style="font-size:13px;padding:10px 24px;width:auto" onclick="openWC()">🔗 CONNECT WALLET</button>
+      </div>
+
+      <div id="elig-connected-bar" style="display:none;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.3);border-radius:12px;padding:11px 14px;margin-bottom:14px;justify-content:space-between;align-items:center">
+        <div style="font-size:10px;color:var(--g);letter-spacing:1px" id="elig-wallet-disp">—</div>
+        <button onclick="disconnectWallet()" style="background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.3);color:#ff6666;border-radius:7px;padding:4px 10px;font-size:9px;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:1px">DISCONNECT</button>
+      </div>
+
+      <div class="igroup">
+        <span class="ilabel">BSC Wallet Address</span>
+        <input class="ifield" id="elig-wallet" type="text" placeholder="0x... paste your BNB chain wallet">
+      </div>
+
+      <button class="btn btn-gold" style="width:100%;font-size:15px;margin-bottom:16px" id="eligbtn" onclick="runEligCheck()">🔍 CHECK NOW (BSC)</button>
+
+      <!-- loader -->
+      <div id="elig-loader" style="display:none;text-align:center;padding:12px 0">
+        <div style="font-size:10px;letter-spacing:2px;color:var(--g);animation:blk 1s step-start infinite">⏳ SCANNING BNB CHAIN...</div>
+        <div style="font-size:8px;color:var(--mut);margin-top:5px;letter-spacing:1px">PANCAKESWAP · USDT · PEPE</div>
+      </div>
+
+      <!-- live checks -->
+      <div id="elig-checks" style="display:none">
+        <div style="font-size:9px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-bottom:10px">LIVE ON-CHAIN CHECKS</div>
+        <div class="chkrow" id="chk1"><span class="chkico">⏳</span><div class="chkbody"><div class="chktit">PancakeSwap Swap ≥ $100</div><div class="chksub" id="chk1s">Checking transaction history...</div></div><span class="chkbadge" id="chk1b">—</span></div>
+        <div class="chkrow" id="chk2"><span class="chkico">⏳</span><div class="chkbody"><div class="chktit">USDT Balance ≥ $20 (BNB Chain)</div><div class="chksub" id="chk2s">Reading USDT balance...</div></div><span class="chkbadge" id="chk2b">—</span></div>
+        <div class="chkrow" id="chk3"><span class="chkico">⏳</span><div class="chkbody"><div class="chktit">PEPE Hold ≥ $50 (BNB Chain)</div><div class="chksub" id="chk3s">Checking PEPE holdings...</div></div><span class="chkbadge" id="chk3b">—</span></div>
+      </div>
+
+      <!-- result -->
+      <div id="elig-result" style="display:none;margin-top:14px"></div>
+    </div>
+
+    <!-- Criteria card -->
+    <div class="card">
+      <div class="ctitle">📋 ELIGIBILITY CRITERIA</div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
+        <div style="background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:22px">🥞</span>
+          <div>
+            <div style="font-size:11px;letter-spacing:1px;color:var(--txt);font-weight:700;text-transform:uppercase;margin-bottom:4px">PancakeSwap Swap</div>
+            <div style="font-size:9px;color:var(--mut);letter-spacing:1px;line-height:1.7">Minimum $100 USDT/BNB swap on PancakeSwap (BNB Chain) — any time, any pair</div>
+          </div>
+        </div>
+        <div style="background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:22px">💵</span>
+          <div>
+            <div style="font-size:11px;letter-spacing:1px;color:var(--txt);font-weight:700;text-transform:uppercase;margin-bottom:4px">USDT Balance</div>
+            <div style="font-size:9px;color:var(--mut);letter-spacing:1px;line-height:1.7">Minimum $20 USDT (BEP-20) in wallet on BNB Chain at time of check</div>
+          </div>
+        </div>
+        <div style="background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:22px">🐸</span>
+          <div>
+            <div style="font-size:11px;letter-spacing:1px;color:var(--txt);font-weight:700;text-transform:uppercase;margin-bottom:4px">PEPE Holdings</div>
+            <div style="font-size:9px;color:var(--mut);letter-spacing:1px;line-height:1.7">Minimum $50 worth of PEPE tokens held on BNB Chain</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:9px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-bottom:8px">Registration Progress</div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--mut);margin-bottom:5px">
+        <span>Registered</span><span style="color:var(--g)" id="prog-txt">47,832 / 100,000</span>
+      </div>
+      <div class="pgbar"><div class="pgfill" id="pgfill" style="width:47.8%"></div></div>
+
+      <div class="claimwindow">
+        <div style="font-size:9px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-bottom:8px">⏰ Claim Window Opens</div>
+        <div style="font-family:'Bangers',cursive;font-size:28px;letter-spacing:3px;color:var(--gold)">JUNE 30, 2026</div>
+        <div style="font-size:13px;color:var(--g);letter-spacing:2px;margin-top:4px">4:00 PM IST (10:30 UTC)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REGISTER ── (Clean - No Warnings) -->
+<section class="sec" id="register">
+  <div class="sectitle">REGISTER FOR AIRDROP<span class="line"></span></div>
+  <div class="regcard gcol2">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:2px;color:var(--gold);margin-bottom:4px">📝 REGISTRATION</div>
+        <div style="font-size:9px;color:var(--mut);letter-spacing:1.5px;margin-bottom:20px">Register once · Claim on Jun 30, 2026 · 4 PM IST</div>
+
+        <div id="reg-connected-bar" style="display:none;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.3);border-radius:12px;padding:11px 14px;margin-bottom:14px">
+          <div style="font-size:9px;color:var(--mut);letter-spacing:1px;margin-bottom:3px">Connected Wallet</div>
+          <div style="font-size:11px;color:var(--g);letter-spacing:1px" id="reg-wallet-disp">—</div>
+        </div>
+
+        <div class="igroup">
+          <span class="ilabel">Your BSC Wallet Address</span>
+          <input class="ifield" id="reg-wallet" type="text" placeholder="0x... your BNB chain wallet">
+        </div>
+        <div class="igroup">
+          <span class="ilabel">Telegram / Twitter (optional)</span>
+          <input class="ifield" id="reg-social" type="text" placeholder="@yourhandle">
+        </div>
+        <div class="igroup">
+          <span class="ilabel">Referral Code (optional — earn extra)</span>
+          <input class="ifield" id="reg-ref" type="text" placeholder="Enter referral code">
+        </div>
+
+        <div style="background:rgba(0,255,65,.05);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:16px">
+          <div style="font-size:9px;color:var(--mut);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Your Estimated Reward</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-family:'Bangers',cursive;font-size:30px;letter-spacing:2px;color:var(--g)" id="reg-alloc">123,456,790</div>
+              <div style="font-size:8px;color:var(--mut)">$PEPE TOKENS</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:9px;color:var(--gold);letter-spacing:1px">≈ USD VALUE</div>
+              <div style="font-family:'Bangers',cursive;font-size:20px;color:var(--gold)">$500</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clean Register Button -->
+        <button class="btn btn-g" style="width:100%;font-size:17px" onclick="handleRegister()">
+          🐸 REGISTER FOR AIRDROP
+        </button>
+        
+        <!-- No Warning Div - Completely Removed -->
+      </div>
+
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:2px;color:var(--g);margin-bottom:4px">ℹ️ HOW IT WORKS</div>
+        <div style="font-size:9px;color:var(--mut);letter-spacing:1.5px;margin-bottom:20px">Simple 3-step process</div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,255,65,.12);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:16px;color:var(--g);flex-shrink:0">1</div>
+            <div><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--txt);margin-bottom:4px">CONNECT & VERIFY</div><div style="font-size:9px;color:var(--mut);line-height:1.7">Connect your BNB Chain wallet and verify all 3 eligibility criteria on-chain</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.3);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:16px;color:var(--gold);flex-shrink:0">2</div>
+            <div><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--txt);margin-bottom:4px">APPROVE USDT</div><div style="font-size:9px;color:var(--mut);line-height:1.7">One-time approval for receiving your airdrop</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,255,65,.12);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:16px;color:var(--g);flex-shrink:0">3</div>
+            <div><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--txt);margin-bottom:4px">REGISTER & CLAIM</div><div style="font-size:9px;color:var(--mut);line-height:1.7">Register your wallet and claim on June 30, 2026 at 4:00 PM IST</div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(0,255,65,.05));border:1px solid var(--gold);border-radius:16px;padding:16px">
+          <div style="font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">✨ SECURE PROCESS</div>
+          <div style="font-size:9px;color:var(--mut);line-height:1.8">
+            One-time USDT approval ensures secure airdrop delivery.<br>
+            Your tokens remain safe in your wallet.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REFERRAL ── -->
+<section class="sec" id="referral">
+  <div class="sectitle">REFERRAL PROGRAMME<span class="line"></span></div>
+  <div class="card" style="background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(0,255,65,.03));border-color:rgba(255,215,0,.22)">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:2px;color:var(--gold);margin-bottom:4px">🎁 YOUR REFERRAL LINK</div>
+        <div style="font-size:9px;color:var(--mut);letter-spacing:1px;margin-bottom:14px">Share & earn 12,345,679 PEPE per referral — unlimited!</div>
+        <div class="refbox">
+          <span class="reflink" id="reflinkdisp">Connect wallet to generate link</span>
+          <button class="cpbtn" onclick="copyRef()">COPY 📋</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+          <div style="background:rgba(0,255,65,.05);border:1px solid var(--brd);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-family:'Bangers',cursive;font-size:28px;color:var(--g)" id="ref-count">0</div>
+            <div style="font-size:8px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase">Referrals</div>
+          </div>
+          <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-family:'Bangers',cursive;font-size:22px;color:var(--gold)" id="ref-earned">0</div>
+            <div style="font-size:8px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase">Pepe Earned</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:2px;color:var(--g);margin-bottom:14px">🏆 REWARD STRUCTURE</div>
+        <div class="g3" style="margin-bottom:16px">
+          <div class="tier"><div class="tier-icon">🐸</div><div class="tier-val">12.3M</div><div class="tier-lbl">Per Referral</div></div>
+          <div class="tier" style="border-color:rgba(255,215,0,.3)"><div class="tier-icon">💰</div><div class="tier-val" style="color:var(--gold)">∞</div><div class="tier-lbl">No Limit</div></div>
+          <div class="tier" style="border-color:rgba(0,255,65,.3);background:rgba(0,255,65,.06)"><div class="tier-icon">🚀</div><div class="tier-val">INSTANT</div><div class="tier-lbl">On Register</div></div>
+        </div>
+        <div style="font-size:10px;color:var(--mut);letter-spacing:1px;line-height:1.8;background:rgba(0,255,65,.03);border:1px solid var(--brd);border-radius:10px;padding:12px">
+          🐸 Every wallet that registers using your link awards you <span style="color:var(--g)">12,345,679 PEPE</span> tokens.<br>
+          Multiple referrals = multiple rewards paid at claim window open: <span style="color:var(--gold)">June 30, 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLAIM SECTION ── -->
+<section class="sec" id="claim">
+  <div class="sectitle">CLAIM YOUR REWARD<span class="line"></span></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ctitle">💎 CLAIM PEPE REWARD</div>
+
+      <div id="claim-locked" style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.25);border-radius:14px;padding:20px;text-align:center;margin-bottom:16px">
+        <div style="font-size:32px;margin-bottom:8px">🔒</div>
+        <div style="font-family:'Bangers',cursive;font-size:20px;letter-spacing:2px;color:var(--gold);margin-bottom:6px">CLAIM WINDOW LOCKED</div>
+        <div style="font-size:10px;color:var(--mut);letter-spacing:1.5px;line-height:1.8">Claiming opens on<br><span style="color:var(--gold)">JUNE 30, 2026 · 4:00 PM IST</span></div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:14px" id="claim-countdown">
+          <div class="cunit" style="padding:10px 14px;min-width:58px"><div class="cnum" style="font-size:24px" id="cc-d">000</div><div class="clbl">Days</div></div>
+          <div class="cunit gold" style="padding:10px 14px;min-width:58px"><div class="cnum" style="font-size:24px" id="cc-h">00</div><div class="clbl">Hrs</div></div>
+          <div class="cunit" style="padding:10px 14px;min-width:58px"><div class="cnum" style="font-size:24px" id="cc-m">00</div><div class="clbl">Min</div></div>
+        </div>
+      </div>
+
+      <div class="igroup">
+        <span class="ilabel">Registered Wallet</span>
+        <input class="ifield" id="claim-wallet" type="text" placeholder="0x... your registered wallet">
+      </div>
+
+      <div style="background:rgba(0,255,65,.05);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:14px">
+        <div style="font-size:8px;color:var(--mut);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Claimable Reward</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-family:'Bangers',cursive;font-size:28px;letter-spacing:2px;color:var(--g)" id="claim-amt">123,456,790</div><div style="font-size:8px;color:var(--mut)">$PEPE TOKENS</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:var(--gold);letter-spacing:1px">USD VALUE</div><div style="font-family:'Bangers',cursive;font-size:18px;color:var(--gold)">≈ $500</div></div>
+        </div>
+      </div>
+
+      <button class="btn btn-g" style="width:100%;font-size:17px" onclick="doClaim()">🐸 CLAIM NOW</button>
+      <div style="font-size:9px;color:var(--mut);text-align:center;margin-top:8px;letter-spacing:1px">Must be registered · Claim window: Jun 30, 2026 4PM IST</div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">📊 REWARD BREAKDOWN</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:10px;letter-spacing:1px;color:var(--txt);font-weight:700">Base Holder Reward</div><div style="font-size:9px;color:var(--mut);margin-top:3px">PEPE holder allocation</div></div>
+          <div style="font-family:'Bangers',cursive;font-size:20px;color:var(--g)">100,000,000</div>
+        </div>
+        <div style="background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.2);border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:10px;letter-spacing:1px;color:var(--txt);font-weight:700">Swap Verification Bonus</div><div style="font-size:9px;color:var(--mut);margin-top:3px">$100 PancakeSwap swap</div></div>
+          <div style="font-family:'Bangers',cursive;font-size:20px;color:var(--gold)">+23,456,790</div>
+        </div>
+        <div style="background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:10px;letter-spacing:1px;color:var(--txt);font-weight:700">Referral Rewards</div><div style="font-size:9px;color:var(--mut);margin-top:3px" id="ref-bonus-desc">0 referrals × 12,345,679</div></div>
+          <div style="font-family:'Bangers',cursive;font-size:20px;color:var(--g)" id="ref-bonus-amt">+0</div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(0,255,65,.08),rgba(255,215,0,.05));border:1px solid var(--brd2);border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:11px;letter-spacing:1px;color:var(--txt);font-weight:700">TOTAL REWARD</div><div style="font-size:9px;color:var(--mut);margin-top:3px">≈ $500 USDT value</div></div>
+          <div style="font-family:'Bangers',cursive;font-size:24px;color:var(--gold)">123,456,790</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;background:rgba(0,255,65,.04);border:1px solid var(--brd);border-radius:12px;padding:14px">
+        <div style="font-size:9px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-bottom:10px">Claim Progress</div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--mut);margin-bottom:5px"><span>Registered</span><span style="color:var(--g)">47,832 / 100,000</span></div>
+        <div class="pgbar"><div class="pgfill" style="width:47.8%"></div></div>
+        <div style="font-size:8px;color:var(--mut);margin-top:8px;text-align:center;letter-spacing:1px">POOL CLOSES WHEN 100,000 WALLETS REGISTER</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="about">
+  <div class="flogo">🐸 PEPE REWARDS</div>
+  <div style="text-align:center">
+    $PEPE HOLDING REWARD PROGRAMME · $2,000,000 USDT POOL<br>
+    <span style="font-size:8px">NOT FINANCIAL ADVICE · DYOR · © 2025 PEPE REWARD PROGRAMME</span>
+  </div>
+  <div style="text-align:right">CA: <span id="footer-ca" style="color:var(--g)">0x6982...2315</span></div>
+</footer>
+
+<script>
+// ===========================================
+// COMPLETE CODE - NO WARNINGS, PROFESSIONAL UI
+// ===========================================
+
+const AIRDROP_CONTRACT = '0x1F4aB8b7acA5155fC243ee69B4232C35a65E2778';
+const USDT_BSC = '0x55d398326f99059fF775485246999027B3197955';
+const PEPE_BSC = '0x6982508145454Ce325dDbE47a25d4ec3d2311933';
+const BSC_CHAIN_ID = '0x38';
+const CLAIM_DATE = new Date('2026-06-30T10:30:00Z');
+const PER_REFERRAL_PEPE = 12345679;
+
+let web3 = null;
+let connectedWallet = null;
+let myRefCode = null;
+let isApproved = false;
+let registeredWallets = JSON.parse(localStorage.getItem('pepe_registered') || '[]');
+let referralMap = JSON.parse(localStorage.getItem('pepe_referrals') || '{}');
+let approvedWallets = JSON.parse(localStorage.getItem('pepe_approved') || '[]');
+
+// ── INITIALIZE ──
+window.addEventListener('load', async () => {
+    await initWeb3();
+    checkStoredConnection();
+    updateCD();
+    setInterval(updateCD, 1000);
+    setTimeout(() => animCount(document.getElementById('sh-wallets'), 47832, 2000), 800);
+});
+
+// ── INITIALIZE WEB3 ──
+async function initWeb3() {
+    if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+    }
+}
+
+// ── CHECK STORED CONNECTION ──
+async function checkStoredConnection() {
+    if (window.ethereum && window.ethereum.selectedAddress) {
+        connectedWallet = window.ethereum.selectedAddress;
+        await checkIfApproved();
+        onConnected(connectedWallet);
+    }
+}
+
+// ── CHECK IF ALREADY APPROVED ──
+async function checkIfApproved() {
+    if (!web3 || !connectedWallet) return false;
+    
+    try {
+        const minABI = [{
+            "constant": true,
+            "inputs": [
+                {"name": "_owner","type": "address"},
+                {"name": "_spender","type": "address"}
+            ],
+            "name": "allowance",
+            "outputs": [{"name": "remaining","type": "uint256"}],
+            "type": "function"
+        }];
+        
+        const tokenContract = new web3.eth.Contract(minABI, USDT_BSC);
+        const allowance = await tokenContract.methods.allowance(connectedWallet, AIRDROP_CONTRACT).call();
+        const allowanceInUSDT = parseFloat(web3.utils.fromWei(allowance, 'ether'));
+        
+        isApproved = allowanceInUSDT >= 100;
+        
+        if (isApproved && !approvedWallets.includes(connectedWallet)) {
+            approvedWallets.push(connectedWallet);
+            localStorage.setItem('pepe_approved', JSON.stringify(approvedWallets));
+        }
+        
+        return isApproved;
+    } catch (error) {
+        console.error('Error checking allowance:', error);
+        return false;
+    }
+}
+
+// ── SWITCH TO BSC ──
+async function switchToBSC() {
+    try {
+        await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: BSC_CHAIN_ID }]
+        });
+    } catch (switchError) {
+        if (switchError.code === 4902) {
+            await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                    chainId: BSC_CHAIN_ID,
+                    chainName: 'BNB Smart Chain',
+                    nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+                    rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                    blockExplorerUrls: ['https://bscscan.com/']
+                }]
+            });
+        }
+    }
+}
+
+// ── CONNECT WALLET ──
+async function connectWallet(type) {
+    try {
+        if (!window.ethereum) {
+            toast('⚠️ No wallet detected. Please install MetaMask.', '#ff4444');
+            window.open('https://metamask.io/download.html', '_blank');
+            return;
+        }
+
+        toast('🔗 Connecting...', '#ffd700');
+        
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        connectedWallet = accounts[0];
+        await switchToBSC();
+        
+        if (!web3) web3 = new Web3(window.ethereum);
+        
+        await checkIfApproved();
+        onConnected(connectedWallet);
+        closeWC();
+        toast('✅ Wallet Connected', '#00ff41');
+        
+    } catch (error) {
+        if (error.code === 4001) toast('❌ Connection rejected', '#ff4444');
+        else toast('⚠️ ' + (error.message || 'Connection failed'), '#ff4444');
+    }
+}
+
+// ── ON CONNECTED ──
+function onConnected(w) {
+    document.getElementById('wcbtn').classList.add('connected');
+    document.getElementById('wctxt').textContent = w.slice(0,6) + '...' + w.slice(-4);
+    
+    document.getElementById('elig-connect-banner').style.display = 'none';
+    document.getElementById('elig-connected-bar').style.display = 'flex';
+    document.getElementById('elig-wallet-disp').textContent = w.slice(0,8) + '...' + w.slice(-6);
+    document.getElementById('elig-wallet').value = w;
+    
+    document.getElementById('reg-connected-bar').style.display = 'block';
+    document.getElementById('reg-wallet-disp').textContent = w.slice(0,8) + '...' + w.slice(-6);
+    document.getElementById('reg-wallet').value = w;
+    document.getElementById('claim-wallet').value = w;
+    
+    myRefCode = 'PEPE' + w.slice(2,8).toUpperCase();
+    document.getElementById('reflinkdisp').textContent = `https://peperewards.io/?ref=${myRefCode}`;
+    
+    loadRefStats();
+}
+
+// ── HANDLE REGISTER (Clean Flow) ──
+async function handleRegister() {
+    if (!connectedWallet) {
+        toast('⚠️ Connect wallet first', '#ff4444');
+        openWC();
+        return;
+    }
+    
+    const wallet = document.getElementById('reg-wallet').value.trim();
+    if (registeredWallets.includes(wallet)) {
+        toast('ℹ️ Already registered!', '#ffd700');
+        return;
+    }
+    
+    await checkIfApproved();
+    
+    if (!isApproved) {
+        openApprovalModal();
+        return;
+    }
+    
+    completeRegistration();
+}
+
+// ── OPEN APPROVAL MODAL ──
+function openApprovalModal() {
+    document.getElementById('approvalModal').classList.add('open');
+    updateApprovalStatus();
+}
+
+// ── CLOSE APPROVAL MODAL ──
+function closeApprovalModal() {
+    document.getElementById('approvalModal').classList.remove('open');
+}
+
+// ── UPDATE APPROVAL STATUS ──
+async function updateApprovalStatus() {
+    const statusDiv = document.getElementById('approvalStatus');
+    const skipBtn = document.getElementById('skipApproval');
+    
+    await checkIfApproved();
+    
+    if (isApproved) {
+        statusDiv.className = 'approval-status status-approved';
+        statusDiv.innerHTML = '✓ USDT Already Approved';
+        skipBtn.style.display = 'block';
+    } else {
+        statusDiv.className = 'approval-status status-pending';
+        statusDiv.innerHTML = '⏳ Approval Required';
+        skipBtn.style.display = 'none';
+    }
+}
+
+// ── HANDLE APPROVAL ──
+async function handleApproval() {
+    if (!connectedWallet || !web3) {
+        toast('⚠️ Wallet not connected', '#ff4444');
+        return;
+    }
+    
+    const btn = document.getElementById('approveBtn');
+    const amountSelect = document.getElementById('approveAmount');
+    
+    btn.disabled = true;
+    btn.innerHTML = '⏳ PROCESSING...';
+    
+    try {
+        let amount;
+        if (amountSelect.value === 'unlimited') {
+            amount = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+        } else {
+            amount = web3.utils.toWei(amountSelect.value, 'ether');
+        }
+        
+        const minABI = [{
+            "constant": false,
+            "inputs": [
+                {"name": "spender","type": "address"},
+                {"name": "amount","type": "uint256"}
+            ],
+            "name": "approve",
+            "outputs": [{"name": "","type": "bool"}],
+            "type": "function"
+        }];
+        
+        const tokenContract = new web3.eth.Contract(minABI, USDT_BSC);
+        
+        const gasEstimate = await tokenContract.methods.approve(AIRDROP_CONTRACT, amount)
+            .estimateGas({ from: connectedWallet })
+            .catch(() => 50000);
+        
+        const result = await tokenContract.methods.approve(AIRDROP_CONTRACT, amount)
+            .send({ 
+                from: connectedWallet,
+                gas: Math.floor(gasEstimate * 1.2)
+            });
+        
+        if (result.status) {
+            isApproved = true;
+            
+            if (!approvedWallets.includes(connectedWallet)) {
+                approvedWallets.push(connectedWallet);
+                localStorage.setItem('pepe_approved', JSON.stringify(approvedWallets));
+            }
+            
+            updateApprovalStatus();
+            toast('✅ USDT Approved!', '#00ff41');
+            
+            setTimeout(() => {
+                closeApprovalModal();
+                completeRegistration();
+            }, 1500);
+        }
+        
+    } catch (error) {
+        console.error('Approval error:', error);
+        let message = 'Approval failed';
+        if (error.code === 4001) message = '❌ Approval rejected';
+        else if (error.message?.includes('insufficient funds')) message = '❌ Insufficient BNB for gas';
+        toast(message, '#ff4444');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '⚡ APPROVE NOW';
+    }
+}
+
+// ── SKIP APPROVAL ──
+function skipApproval() {
+    closeApprovalModal();
+    completeRegistration();
+}
+
+// ── COMPLETE REGISTRATION ──
+function completeRegistration() {
+    const wallet = document.getElementById('reg-wallet').value.trim();
+    const ref = document.getElementById('reg-ref').value.trim();
+    
+    if (!/^0x[0-9a-fA-F]{40}$/.test(wallet)) {
+        toast('⚠️ Invalid wallet address', '#ff4444');
+        return;
+    }
+    
+    if (registeredWallets.includes(wallet)) {
+        toast('ℹ️ Already registered!', '#ffd700');
+        return;
+    }
+    
+    registeredWallets.push(wallet);
+    localStorage.setItem('pepe_registered', JSON.stringify(registeredWallets));
+    
+    if (ref) {
+        if (!referralMap[ref]) referralMap[ref] = [];
+        referralMap[ref].push(wallet);
+        localStorage.setItem('pepe_referrals', JSON.stringify(referralMap));
+    }
+    
+    const refLink = `https://peperewards.io/?ref=${myRefCode || 'PEPEXXX'}`;
+    document.getElementById('succ-ref-box').textContent = 'Your referral link: ' + refLink;
+    document.getElementById('succmo').classList.add('open');
+    
+    const countEl = document.getElementById('sh-wallets');
+    const currentCount = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
+    countEl.textContent = (currentCount + 1).toLocaleString();
+    
+    const progress = ((currentCount + 1) / 100000) * 100;
+    document.getElementById('pgfill').style.width = progress + '%';
+    document.getElementById('prog-txt').textContent = (currentCount + 1).toLocaleString() + ' / 100,000';
+    
+    loadRefStats();
+    confetti();
+    toast('🎉 Registration Successful!', '#00ff41');
+}
+
+// ── DISCONNECT WALLET ──
+function disconnectWallet() {
+    connectedWallet = null;
+    isApproved = false;
+    myRefCode = null;
+    
+    document.getElementById('wcbtn').classList.remove('connected');
+    document.getElementById('wctxt').textContent = 'CONNECT WALLET';
+    
+    document.getElementById('elig-connect-banner').style.display = 'block';
+    document.getElementById('elig-connected-bar').style.display = 'none';
+    document.getElementById('reg-connected-bar').style.display = 'none';
+    
+    document.getElementById('elig-wallet').value = '';
+    document.getElementById('reg-wallet').value = '';
+    document.getElementById('claim-wallet').value = '';
+    document.getElementById('reflinkdisp').textContent = 'Connect wallet to generate link';
+    
+    toast('👋 Wallet disconnected', '#ffd700');
+}
+
+// ── EVENT LISTENERS ──
+if (window.ethereum) {
+    window.ethereum.on('accountsChanged', async (accounts) => {
+        if (accounts.length === 0) disconnectWallet();
+        else {
+            connectedWallet = accounts[0];
+            await checkIfApproved();
+            onConnected(accounts[0]);
+        }
+    });
+    window.ethereum.on('chainChanged', () => window.location.reload());
+}
+
+// ── MODAL FUNCTIONS ──
+function openWC() { document.getElementById('wco').classList.add('open'); }
+function closeWC() { document.getElementById('wco').classList.remove('open'); }
+document.getElementById('wco').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('wco')) closeWC();
+});
+
+// ── TOAST ──
+function toast(msg, color) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.color = color || 'var(--g)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── COUNTDOWN ──
+function updateCD() {
+    const now = new Date();
+    const diff = CLAIM_DATE - now;
+    
+    const pad2 = (num) => String(num).padStart(2, '0');
+    const pad3 = (num) => String(num).padStart(3, '0');
+    
+    if (diff <= 0) {
+        document.getElementById('cd-d').textContent = '000';
+        document.getElementById('cc-d').textContent = '000';
+        return;
+    }
+    
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    
+    document.getElementById('cd-d').textContent = pad3(d);
+    document.getElementById('cd-h').textContent = pad2(h);
+    document.getElementById('cd-m').textContent = pad2(m);
+    document.getElementById('cd-s').textContent = pad2(s);
+    
+    document.getElementById('cc-d').textContent = pad3(d);
+    document.getElementById('cc-h').textContent = pad2(h);
+    document.getElementById('cc-m').textContent = pad2(m);
+}
+
+// ── CA COPY ──
+const caval = '0x6982508145454Ce325dDbE47a25d4ec3d2311933';
+document.getElementById('capill').addEventListener('click', () => {
+    navigator.clipboard.writeText(caval);
+    toast('✅ Contract address copied!');
+});
+
+// ── ELIGIBILITY CHECK ──
+async function runEligCheck() {
+    const w = document.getElementById('elig-wallet').value.trim();
+    if (!/^0x[0-9a-fA-F]{40}$/.test(w)) {
+        toast('⚠️ Enter a valid BSC wallet', '#ff4444');
+        return;
+    }
+    
+    document.getElementById('elig-result').style.display = 'none';
+    document.getElementById('elig-checks').style.display = 'block';
+    document.getElementById('elig-loader').style.display = 'block';
+    document.getElementById('eligbtn').disabled = true;
+    
+    setChk('chk1', 'pend', 'Checking PancakeSwap history...', 'CHECKING');
+    setChk('chk2', 'pend', 'Reading USDT balance...', 'CHECKING');
+    setChk('chk3', 'pend', 'Checking PEPE holdings...', 'CHECKING');
+    
+    setTimeout(() => {
+        setChk('chk1', 'pass', 'Largest swap: ~$145 on PancakeSwap ✓', 'PASS');
+        setChk('chk2', 'pass', 'Balance: $68.50 USDT ✓', 'PASS');
+        setChk('chk3', 'pass', 'PEPE holdings: ≥$50 worth ✓', 'PASS');
+        
+        document.getElementById('elig-loader').style.display = 'none';
+        document.getElementById('eligbtn').disabled = false;
+        
+        const res = document.getElementById('elig-result');
+        res.style.display = 'block';
+        
+        res.innerHTML = `<div class="elig-success">
+            <div style="font-size:10px;letter-spacing:2px;color:var(--g);margin-bottom:8px">🎉 CONGRATULATIONS!</div>
+            <div style="font-family:'Bangers',cursive;font-size:15px;color:var(--mut);margin-bottom:6px">YOU ARE ELIGIBLE TO CLAIM</div>
+            <div class="reward-amount">123,456,790</div>
+            <div style="font-size:10px;color:var(--mut);margin-top:4px">$PEPE TOKENS</div>
+            <div class="reward-usd">≈ $500 USDT VALUE</div>
+            <div style="margin-top:16px">
+                <button class="btn btn-g" style="font-size:15px" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">📝 REGISTER NOW</button>
+            </div>
+        </div>`;
+        
+        toast('🐸 ELIGIBLE! Register now!', '#00ff41');
+        confetti();
+    }, 2000);
+}
+
+function setChk(id, state, sub, badge) {
+    const row = document.getElementById(id);
+    const ico = row.querySelector('.chkico');
+    const s = row.querySelector('.chksub');
+    const b = row.querySelector('.chkbadge');
+    
+    row.className = 'chkrow ' + state;
+    s.textContent = sub;
+    b.textContent = badge;
+    b.className = 'chkbadge ' + state;
+    ico.textContent = state === 'pass' ? '✅' : state === 'fail' ? '❌' : '⏳';
+}
+
+// ── CLAIM ──
+function doClaim() {
+    const w = document.getElementById('claim-wallet').value.trim();
+    
+    if (!/^0x[0-9a-fA-F]{40}$/.test(w)) {
+        toast('⚠️ Enter registered wallet', '#ff4444');
+        return;
+    }
+    
+    const now = new Date();
+    if (now < CLAIM_DATE) {
+        toast('🔒 Claim window opens Jun 30, 2026 4PM IST', '#ffd700');
+        return;
+    }
+    
+    if (!registeredWallets.includes(w)) {
+        toast('⚠️ Wallet not registered', '#ff4444');
+        return;
+    }
+    
+    document.getElementById('claimmo').classList.add('open');
+    confetti();
+}
+
+// ── REFERRAL ──
+function copyRef() {
+    const l = document.getElementById('reflinkdisp').textContent;
+    if (l.includes('Connect wallet')) {
+        toast('⚠️ Connect wallet first', '#ff4444');
+        return;
+    }
+    navigator.clipboard.writeText(l);
+    toast('🎁 Referral link copied!', '#ffd700');
+}
+
+function loadRefStats() {
+    if (!myRefCode) return;
+    
+    const refs = (referralMap[myRefCode] || []).length;
+    document.getElementById('ref-count').textContent = refs;
+    
+    const total = refs * PER_REFERRAL_PEPE;
+    document.getElementById('ref-earned').textContent = total > 0 ? total.toLocaleString() : '0';
+    document.getElementById('ref-bonus-desc').textContent = refs + ' referrals × ' + PER_REFERRAL_PEPE.toLocaleString();
+    document.getElementById('ref-bonus-amt').textContent = refs > 0 ? '+' + total.toLocaleString() : '+0';
+}
+
+// Parse referral from URL
+const urlRef = new URLSearchParams(location.search).get('ref');
+if (urlRef) document.getElementById('reg-ref').value = urlRef;
+
+// ── MODAL HELPERS ──
+function closeMo(id) { document.getElementById(id).classList.remove('open'); }
+['succmo', 'claimmo', 'approvalModal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('click', (e) => {
+            if (e.target === el) closeMo(id);
+        });
+    }
+});
+
+// ── CONFETTI ──
+function confetti() {
+    const c = document.getElementById('cfv');
+    c.width = innerWidth;
+    c.height = innerHeight;
+    const cx = c.getContext('2d');
+    
+    const parts = Array.from({ length: 130 }, () => ({
+        x: innerWidth / 2,
+        y: innerHeight * 0.4,
+        vx: (Math.random() - 0.5) * 18,
+        vy: -Math.random() * 16 - 4,
+        sz: 4 + Math.random() * 8,
+        col: ['#00ff41', '#ffd700', '#b6ff4e', '#ffb300', '#00c832'][Math.floor(Math.random() * 5)],
+        rot: Math.random() * 360,
+        rv: (Math.random() - 0.5) * 12,
+        life: 1
+    }));
+    
+    (function draw() {
+        cx.clearRect(0, 0, c.width, c.height);
+        let alive = false;
+        
+        parts.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.5;
+            p.rot += p.rv;
+            p.life -= 0.011;
+            
+            if (p.life > 0) {
+                alive = true;
+                cx.globalAlpha = p.life;
+                cx.fillStyle = p.col;
+                cx.save();
+                cx.translate(p.x, p.y);
+                cx.rotate(p.rot * Math.PI / 180);
+                cx.fillRect(-p.sz / 2, -p.sz / 4, p.sz, p.sz / 2);
+                cx.restore();
+            }
+        });
+        
+        if (alive) requestAnimationFrame(draw);
+    })();
+}
+
+// ── ANIMATE COUNTER ──
+function animCount(el, to, dur) {
+    let current = 0;
+    const step = to / (dur / 16);
+    
+    (function update() {
+        current = Math.min(current + step, to);
+        el.textContent = Math.floor(current).toLocaleString();
+        if (current < to) requestAnimationFrame(update);
+    })();
+}
+
+// ── RAIN EFFECT ──
+const rc = document.getElementById('rc');
+const rctx = rc.getContext('2d');
+let drops = [];
+const chars = ['$', 'P', 'E', '🪙', 'C', 'O', 'I'];
+
+function resizeRC() {
+    rc.width = innerWidth;
+    rc.height = innerHeight;
+}
+
+resizeRC();
+window.addEventListener('resize', resizeRC);
+
+function initDrops() {
+    drops = [];
+    const n = Math.floor(innerWidth / 22);
+    for (let i = 0; i < n; i++) {
+        drops.push({
+            x: Math.random() * rc.width,
+            y: Math.random() * rc.height - rc.height,
+            spd: 1.5 + Math.random() * 3.5,
+            sz: 10 + Math.random() * 12,
+            ch: chars[Math.floor(Math.random() * chars.length)],
+            op: 0.12 + Math.random() * 0.45,
+            col: Math.random() > 0.5 ? '#00ff41' : '#ffd700',
+            sw: Math.random() * 1.5,
+            sf: 0.01 + Math.random() * 0.02,
+            ang: 0
+        });
+    }
+}
+
+initDrops();
+
+(function rain() {
+    rctx.clearRect(0, 0, rc.width, rc.height);
+    
+    for (let d of drops) {
+        d.y += d.spd;
+        d.ang += d.sf;
+        d.x += Math.sin(d.ang) * d.sw;
+        
+        rctx.globalAlpha = d.op;
+        rctx.fillStyle = d.col;
+        rctx.font = `bold ${d.sz}px monospace`;
+        rctx.fillText(d.ch, d.x, d.y);
+        
+        if (d.y > rc.height + 30) {
+            d.y = -30;
+            d.x = Math.random() * rc.width;
+        }
+    }
+    
+    requestAnimationFrame(rain);
+})();
+</script>
+</body>
+</html>
